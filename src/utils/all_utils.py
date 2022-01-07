@@ -2,7 +2,13 @@ import yaml
 import os
 import json
 import logging
+import time
 
+
+def get_timestamp(name):
+    timestamp = time.asctime().replace(" ", "_").replace(":","_")
+    unique_name= f"{name}_at_{timestamp}"
+    return unique_name
 
 def read_yaml(path_to_yaml: str) -> dict:
     with open(path_to_yaml) as yaml_file:
