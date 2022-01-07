@@ -3,6 +3,8 @@ import tensorflow as tf
 import time
 import joblib
 import logging
+
+from tensorflow.python.keras import callbacks
 from src.utils.all_utils import get_timestamp
 
 
@@ -25,3 +27,15 @@ def create_and_save_checkpoint_callback(callbacks_dir, checkpoint_dir):
     joblib.dump(checkpoint_callback, ckpt_callback_filepath) # store the tf file in tb_callback_filepath
 
     logging.info(f"checkpoint callback is saved at {ckpt_callback_filepath}")
+
+def get_callbacks(callbacks_dir):
+    
+    callback_path= [
+        os.path.join(callbacks_dir, bin_file) for bin_file in os.listdir(callbacks_dir) if bin_file.endswith(".cb")
+    ]
+
+    callbacks= [
+        joblib.load(callback_path) for callback_path in callback_path
+    ]
+    logging.info(f"saved callbacks are loaded from {callback_path}")
+    return callbacks
